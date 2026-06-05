@@ -58,6 +58,9 @@ if [ -n "$WANDB_KEY" ]; then
   python -m wandb login "$WANDB_KEY"
 fi
 
+echo "==> Installing tmux (keeps sessions alive after SSH disconnect)"
+apt-get install -y --no-install-recommends tmux
+
 echo "==> Installing Node.js (required for Claude Code)"
 if ! command -v node &>/dev/null; then
   curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
