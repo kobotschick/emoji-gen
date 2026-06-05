@@ -33,13 +33,17 @@ if ! command -v uv &>/dev/null; then
   echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 fi
 
-echo "==> Installing PyTorch (cu121)"
+echo "==> Installing project deps (PyTorch already present on pod)"
+# Exclude torch/torchvision — the pod ships PyTorch 2.8.0 + CUDA 12.8.1.
+# open-clip-torch will detect and reuse the existing installation.
 uv pip install --system --no-cache \
-  "torch>=2.2" "torchvision>=0.18" \
-  --extra-index-url https://download.pytorch.org/whl/cu121
-
-echo "==> Installing project deps"
-uv pip install --system --no-cache .
+  "jax[cuda12]>=0.4.25" \
+  "equinox>=0.11" \
+  "optax>=0.2" \
+  "open-clip-torch>=2.24" \
+  "wandb>=0.17" \
+  "pillow>=10.0" \
+  "numpy>=1.26"
 
 echo "==> Verifying GPU is visible to JAX"
 python - <<'EOF'
