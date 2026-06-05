@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+*.eqx
+wandb/
+data/emoji_dataset/
+*.log
+.DS_Store
