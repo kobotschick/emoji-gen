@@ -1,0 +1,9 @@
+.git/
+.venv/
+.claude/
+__pycache__/
+*.pyc
+*.pyo
+*.eqx
+data/emoji_dataset_sample/
+experiments/*/checkpoints/
