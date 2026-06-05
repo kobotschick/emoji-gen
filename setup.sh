@@ -58,8 +58,11 @@ if [ -n "$WANDB_KEY" ]; then
   python -m wandb login "$WANDB_KEY"
 fi
 
-echo "==> Installing tmux (keeps sessions alive after SSH disconnect)"
+echo "==> Installing tmux + code-server"
 apt-get install -y --no-install-recommends tmux
+if ! command -v code-server &>/dev/null; then
+  curl -fsSL https://code-server.dev/install.sh | sh
+fi
 
 echo "==> Installing Node.js (required for Claude Code)"
 if ! command -v node &>/dev/null; then
@@ -81,3 +84,5 @@ echo "Setup complete."
 echo ""
 echo "  Train:        cd $WORKDIR && python experiments/cifar10_text/main.py"
 echo "  Claude Code:  cd $WORKDIR && claude"
+echo "  IDE:          code-server --bind-addr 0.0.0.0:8080 --auth none $WORKDIR"
+echo "                then open RunPod's port 8080 proxy URL in your browser"
